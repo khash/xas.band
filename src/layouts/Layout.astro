@@ -3,21 +3,26 @@ import '../styles/global.css';
 
 interface Props {
   title?: string;
+  description?: string;
 }
 
-const { title = 'xas' } = Astro.props;
+const {
+  title = 'Xas — composer & music creator',
+  description = 'Xas is a composer and music creator working at the seam of human feeling and machine craft. Cinematic electronica made of memory, motion and presence.',
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="antialiased">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
     <title>{title}</title>
   </head>
-  <body>
+  <body class="isolate">
     <slot />
   </body>
 </html>
