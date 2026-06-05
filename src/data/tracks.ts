@@ -5,6 +5,8 @@
 // "(sparse atmosphere…)", "(stutter vocal chops)", etc.) have been stripped.
 // Stanzas are separated by a blank line; one line per sung line.
 
+import type { ImageMetadata } from 'astro';
+
 export interface Track {
   slug: string;
   title: string;
@@ -490,4 +492,16 @@ Ton écho tourne encore`,
   },
 ];
 
-export const cover = (s: string) => `/tracks/${s}.png`;
+// Cover art lives in src/assets/tracks/<slug>.png so Astro's image pipeline
+// (astro:assets) can resize + convert it at build time. cover(slug) returns the
+// ImageMetadata to hand to the <Image> component (NOT a URL string).
+const covers = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/tracks/*.png',
+  { eager: true },
+);
+
+export const cover = (s: string): ImageMetadata => {
+  const mod = covers[`../assets/tracks/${s}.png`];
+  if (!mod) throw new Error(`Missing cover image for track "${s}" (expected src/assets/tracks/${s}.png)`);
+  return mod.default;
+};
