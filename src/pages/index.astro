@@ -1,17 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-const tracks = [
-  { slug: 'the-silence-after', title: 'The Silence After', note: 'Cinematic house · spoken word', dur: '5:17' },
-  { slug: 'only-now', title: 'Only Now', note: 'feat. Alan Watts', dur: '5:36' },
-  { slug: 'here-and-now', title: 'Here and Now', note: 'Neon · analog sky', dur: '4:57' },
-  { slug: 'every-note-remembers-something', title: 'Every Note Remembers Something', note: 'Nostalgic house', dur: '5:09' },
-  { slug: 'dont-wake-me-up', title: "Don't Wake Me Up", note: 'Dreamy electronica', dur: '5:27' },
-  { slug: 'motion', title: 'Motion', note: 'Restless · forward', dur: '4:54' },
-  { slug: 'neon-noir', title: 'Neon Noir', note: 'Synthwave', dur: '3:03' },
-];
-
-const cover = (s) => `/tracks/${s}.png`;
+import { tracks, cover } from '../data/tracks';
 
 const listen = [
   { name: 'SoundCloud' },
@@ -99,15 +88,23 @@ const listen = [
       </div>
       <ul role="list" class="mt-8 divide-y divide-white/5">
         {tracks.map((t) => (
-          <li class="grid grid-cols-[auto_1fr_auto] items-center gap-4 py-4">
-            <span class="size-12 shrink-0 overflow-hidden rounded-lg sm:size-14">
-              <img src={cover(t.slug)} alt="" class="size-full object-cover" />
-            </span>
-            <span class="min-w-0">
-              <span class="block truncate text-base font-medium text-neutral-100">{t.title}</span>
-              <span class="block truncate font-mono text-xs text-neutral-500">{t.note}</span>
-            </span>
-            <span class="font-mono text-sm tabular-nums text-neutral-500">{t.dur}</span>
+          <li>
+            <a
+              href={t.lyrics ? `/music/${t.slug}` : undefined}
+              class={`group grid grid-cols-[auto_1fr_auto] items-center gap-4 py-4 ${t.lyrics ? 'cursor-pointer' : ''}`}
+            >
+              <span class="size-12 shrink-0 overflow-hidden rounded-lg sm:size-14">
+                <img src={cover(t.slug)} alt="" class="size-full object-cover transition group-hover:scale-105" />
+              </span>
+              <span class="min-w-0">
+                <span class="block truncate text-base font-medium text-neutral-100 group-hover:text-white">{t.title}</span>
+                <span class="block truncate font-mono text-xs text-neutral-500">{t.note}</span>
+              </span>
+              <span class="flex items-center gap-3 font-mono text-sm tabular-nums text-neutral-500">
+                {t.lyrics && <span class="hidden text-xs uppercase tracking-wide text-fuchsia-300/70 group-hover:inline">Lyrics →</span>}
+                {t.dur}
+              </span>
+            </a>
           </li>
         ))}
       </ul>
@@ -166,6 +163,7 @@ const listen = [
           <a href="mailto:kash@xas.band" class="hover:text-white">Contact</a>
         </nav>
         <p class="mt-6 font-mono text-xs uppercase tracking-wide text-neutral-600">© 2025–2026 Xas — made of memory and signal</p>
+        <p class="font-mono text-xs uppercase tracking-wide text-neutral-600">All music &amp; lyrics © 2025–2026 Xas. All rights reserved.</p>
       </div>
     </footer>
   </main>

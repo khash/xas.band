@@ -1,0 +1,59 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { tracks, cover } from '../../data/tracks';
+
+export function getStaticPaths() {
+  return tracks
+    .filter((t) => t.lyrics)
+    .map((t) => ({ params: { slug: t.slug }, props: { track: t } }));
+}
+
+const { track } = Astro.props;
+const stanzas = (track.lyrics ?? '')
+  .trim()
+  .split(/\n\s*\n/)
+  .map((s) => s.split('\n'));
+---
+
+<Layout title={`${track.title} — lyrics · Xas`} description={`Lyrics for “${track.title}” by Xas.`}>
+  <main class="grain min-h-dvh overflow-x-hidden bg-neutral-950 font-sans text-neutral-200 selection:bg-fuchsia-500/30">
+    <div class="pointer-events-none fixed inset-0 -z-10">
+      <div class="absolute -top-40 left-1/2 size-[42rem] -translate-x-1/2 rounded-full bg-fuchsia-600/20 blur-[120px]"></div>
+      <div class="absolute bottom-0 right-0 size-[36rem] rounded-full bg-cyan-500/10 blur-[120px]"></div>
+      <div class="grain-overlay absolute inset-0 opacity-[0.06] mix-blend-screen"></div>
+    </div>
+
+    <header class="mx-auto flex max-w-3xl items-center justify-between px-6 py-6">
+      <a href="/" class="font-display text-2xl tracking-tight text-white [text-shadow:0_0_24px_rgb(217_70_239/0.55)]">XAS</a>
+      <a href="/#music" class="font-mono text-xs uppercase tracking-wide text-neutral-400 hover:text-white">← All singles</a>
+    </header>
+
+    <article class="mx-auto max-w-3xl px-6 pb-24 pt-6">
+      <div class="flex flex-col items-center gap-6 text-center sm:flex-row sm:items-end sm:text-left">
+        <img src={cover(track.slug)} alt="" class="size-32 shrink-0 rounded-2xl object-cover shadow-2xl shadow-fuchsia-900/40 outline-1 -outline-offset-1 outline-white/10 sm:size-40" />
+        <div>
+          <p class="font-mono text-xs uppercase tracking-wide text-fuchsia-300/80">Lyrics</p>
+          <h1 class="mt-2 font-display text-4xl text-white sm:text-5xl">{track.title}</h1>
+          <p class="mt-2 font-mono text-xs text-neutral-500">{track.note} · {track.dur}</p>
+        </div>
+      </div>
+
+      <div class="mt-12 space-y-8 text-pretty text-lg leading-relaxed text-neutral-300">
+        {stanzas.map((lines) => (
+          <p>
+            {lines.map((line, i) => (
+              <>
+                {line}{i < lines.length - 1 && <br />}
+              </>
+            ))}
+          </p>
+        ))}
+      </div>
+
+      <div class="mt-16 flex flex-col gap-4 border-t border-white/5 pt-8 sm:flex-row sm:items-center sm:justify-between">
+        <a href="/#music" class="font-mono text-xs uppercase tracking-wide text-neutral-400 hover:text-white">← Back to all singles</a>
+        <p class="font-mono text-xs uppercase tracking-wide text-neutral-600">Lyrics © 2025–2026 Xas. All rights reserved.</p>
+      </div>
+    </article>
+  </main>
+</Layout>
