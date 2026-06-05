@@ -16,6 +16,13 @@ pnpm preview   # serve the built dist/ locally
 
 Use **pnpm** (not npm). The repo is committed directly to `main`; AWS Amplify builds from `main` (`amplify.yml`: Node 22, pnpm pinned to 10.24.0, `pnpm build`, publishes `dist/`).
 
+**AWS / Amplify:** the site's Amplify app lives in the `personal` AWS profile — use `--profile personal` for any `aws` CLI calls. App: **xas.band**, `appId dnojs9xcscsg4`, region **us-east-1**, branch `main`. Watch a deploy with:
+
+```bash
+aws amplify list-jobs --profile personal --region us-east-1 --app-id dnojs9xcscsg4 --branch-name main --max-items 1
+aws amplify get-job   --profile personal --region us-east-1 --app-id dnojs9xcscsg4 --branch-name main --job-id <id>
+```
+
 ## Architecture
 
 - **`src/data/tracks.ts` is the single source of truth for the singles.** It exports the `tracks` array (slug, title, note, dur, optional `lyrics`) and the `cover(slug)` helper. Both the home page singles list and the lyrics pages import from here — never reintroduce an inline track array in a page.
