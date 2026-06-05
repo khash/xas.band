@@ -4,12 +4,21 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  image?: string;
 }
 
 const {
-  title = 'Xas — composer & music creator',
-  description = 'Xas is a composer and music creator working at the seam of human feeling and machine craft. Cinematic electronica made of memory, motion and presence.',
+  title = 'Xas | Psychedelic Electronic Music',
+  description = 'Xas creates psychedelic electronic music shaped by memory, distance, and movement. Warm house grooves, French electronic textures, and cinematic melodies.',
+  ogTitle = title,
+  ogDescription = description,
+  image = '/img/header.png',
 } = Astro.props;
+
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const ogImage = Astro.site ? new URL(image, Astro.site).href : image;
 ---
 
 <!doctype html>
@@ -20,7 +29,18 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
     <title>{title}</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:image" content={ogImage} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={ogImage} />
   </head>
   <body class="isolate">
     <slot />

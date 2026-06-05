@@ -19,7 +19,7 @@ export const tracks: Track[] = [
   {
     slug: 'the-silence-after',
     title: 'The Silence After',
-    note: 'Cinematic house · spoken word',
+    note: 'Love had already left. The room kept listening.',
     dur: '5:17',
     lyrics: `The lights are on
 But nobody's home
@@ -95,7 +95,7 @@ Was knowing that I already had`,
   {
     slug: 'only-now',
     title: 'Only Now',
-    note: 'feat. Alan Watts',
+    note: 'No yesterday. No tomorrow. Just the pulse of this moment.',
     dur: '5:36',
     lyrics: `Slowly
 The night unfolds
@@ -176,7 +176,7 @@ Only now`,
   {
     slug: 'here-and-now',
     title: 'Here and Now',
-    note: 'Neon · analog sky',
+    note: 'A small light held steady against the noise.',
     dur: '4:57',
     lyrics: `Midnight air, electric blue
 Static lights dissolve in you
@@ -252,7 +252,7 @@ Every road still leads to you`,
   {
     slug: 'every-note-remembers-something',
     title: 'Every Note Remembers Something',
-    note: 'Nostalgic house',
+    note: 'You see the painting. Not the brush strokes. You hear the laughter. Not what once broke.',
     dur: '5:09',
     lyrics: `Every note remembers something
 Every note finds its way home
@@ -294,7 +294,7 @@ Long before the song was sung`,
   {
     slug: 'dont-wake-me-up',
     title: "Don't Wake Me Up",
-    note: 'Dreamy electronica',
+    note: 'In the dream, they were still there.',
     dur: '5:27',
     lyrics: `I heard your voice before the light
 Soft as dust in a closing sky
@@ -352,7 +352,7 @@ And took you with it`,
   {
     slug: 'motion',
     title: 'Motion',
-    note: 'Restless · forward',
+    note: 'The past falls behind, but never completely lets go.',
     dur: '4:54',
     lyrics: `The city lights change
 But they blur all the same
@@ -421,7 +421,7 @@ Chasing fading lights (fading lights)`,
   {
     slug: 'neon-noir',
     title: 'Neon Noir',
-    note: 'Synthwave',
+    note: 'Streetlight, shadow, and a heartbeat under glass.',
     dur: '3:03',
     lyrics: `Néons bleus sur le périph'
 Minuit traverse la ville

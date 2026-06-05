@@ -12,7 +12,10 @@ const listen = [
 ];
 ---
 
-<Layout>
+<Layout
+  ogTitle="Xas | Every note remembers something"
+  ogDescription="Psychedelic electronic music for late nights, lost cities, and unfinished conversations."
+>
   <main class="grain min-h-dvh overflow-x-hidden bg-neutral-950 font-sans text-neutral-200 selection:bg-fuchsia-500/30">
     <div class="pointer-events-none fixed inset-0 -z-10">
       <div class="absolute -top-40 left-1/2 size-[42rem] -translate-x-1/2 rounded-full bg-fuchsia-600/20 blur-[120px]"></div>
@@ -26,10 +29,10 @@ const listen = [
       <a href="#" class="font-display text-2xl tracking-tight text-white [text-shadow:0_0_24px_rgb(217_70_239/0.55)]">XAS</a>
       <nav class="hidden items-center gap-8 font-mono text-xs uppercase tracking-wide text-neutral-400 md:flex">
         <a href="#music" class="hover:text-white">Music</a>
-        <a href="#voice" class="hover:text-white">The Voice</a>
-        <a href="#story" class="hover:text-white">Story</a>
+        <a href="#voice" class="hover:text-white">Solène</a>
+        <a href="#story" class="hover:text-white">About</a>
       </nav>
-      <a href="#music" class="rounded-full bg-white/10 px-5 py-2 text-sm font-medium text-white ring-1 ring-white/15 backdrop-blur hover:bg-white/15">The music</a>
+      <a href="#music" class="rounded-full bg-white/10 px-5 py-2 text-sm font-medium text-white ring-1 ring-white/15 backdrop-blur hover:bg-white/15">Listen</a>
     </header>
 
     <!-- Hero -->
@@ -42,20 +45,22 @@ const listen = [
           </span>
           Debut album · coming soon
         </span>
-        <p class="mt-6 font-mono text-xs uppercase tracking-wide text-fuchsia-300/80">Composer · music creator</p>
-        <h1 class="mt-5 font-display text-6xl text-white sm:text-7xl lg:text-8xl">
-          Satellite hearts<br />in the night
+        <h1 class="mt-6 max-w-[16ch] text-balance font-display text-5xl text-white sm:text-6xl lg:text-7xl">
+          Every note remembers something.
         </h1>
-        <p class="mt-6 max-w-[52ch] text-pretty text-lg text-neutral-300">
-          Xas builds cinematic electronica at the seam of human feeling and machine craft — synth motifs that return like half-remembered dreams, and the intimate voice of Solène.
+        <p class="mt-6 max-w-[48ch] text-pretty text-lg text-neutral-300">
+          Psychedelic electronic music for late nights, lost cities, and unfinished conversations.
+        </p>
+        <p class="mt-4 max-w-[52ch] text-pretty text-base text-neutral-400">
+          House rhythms, French electronic textures, and melodies that feel familiar before you have heard them.
         </p>
         <div class="mt-8 flex flex-wrap items-center gap-4">
           <a href="#music"
             class="inline-flex items-center gap-3 rounded-full bg-linear-to-r from-fuchsia-500 via-violet-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-neutral-950 shadow-[0_0_40px_-8px_rgb(217_70_239/0.7)] hover:brightness-110">
-            Explore the singles
+            Listen now
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="size-4"><path d="M12 5v14M5 12l7 7 7-7" stroke-linecap="round" stroke-linejoin="round" /></svg>
           </a>
-          <a href="#story" class="text-sm font-medium text-neutral-300 underline-offset-4 hover:text-white hover:underline">The story →</a>
+          <a href="#story" class="text-sm font-medium text-neutral-300 underline-offset-4 hover:text-white hover:underline">About Xas →</a>
         </div>
       </div>
 
@@ -68,24 +73,14 @@ const listen = [
       </div>
     </section>
 
-    <!-- Lyric ticker -->
-    <div class="overflow-hidden border-y border-white/5 py-4">
-      <div class="flex w-max animate-marquee gap-8 font-display text-2xl text-white/15">
-        {Array.from({ length: 2 }).map(() => (
-          <span class="flex shrink-0 items-center gap-8">
-            <span>EVERY NOTE REMEMBERS SOMETHING</span><span class="text-fuchsia-400/40">✸</span>
-            <span>ONLY NOW, ONLY THIS MOMENT MOVING</span><span class="text-cyan-400/40">✸</span>
-            <span>WE ARE BREATHING THROUGH THE STATIC AND THE LIGHT</span><span class="text-fuchsia-400/40">✸</span>
-          </span>
-        ))}
-      </div>
-    </div>
-
     <!-- Music -->
     <section id="music" class="mx-auto max-w-6xl px-6 py-20">
-      <div class="flex items-end justify-between">
-        <h2 class="font-display text-4xl text-white sm:text-5xl">Singles</h2>
-        <p class="font-mono text-xs uppercase tracking-wide text-neutral-500">7 singles · 2024–2025</p>
+      <div class="flex items-end justify-between gap-6">
+        <div>
+          <h2 class="font-display text-4xl text-white sm:text-5xl">Releases</h2>
+          <p class="mt-3 max-w-[42ch] text-pretty text-neutral-400">Songs about memory, distance, love, and the moments that keep returning.</p>
+        </div>
+        <p class="shrink-0 font-mono text-xs uppercase tracking-wide text-neutral-500">7 singles · coming 2026</p>
       </div>
       <ul role="list" class="mt-8 divide-y divide-white/5">
         {tracks.map((t) => (
@@ -99,7 +94,7 @@ const listen = [
               </span>
               <span class="min-w-0">
                 <span class="block truncate text-base font-medium text-neutral-100 group-hover:text-white">{t.title}</span>
-                <span class="block truncate font-mono text-xs text-neutral-500">{t.note}</span>
+                <span class="mt-0.5 block text-pretty font-mono text-xs leading-relaxed text-neutral-500">{t.note}</span>
               </span>
               <span class="flex items-center gap-3 font-mono text-sm tabular-nums text-neutral-500">
                 {t.lyrics && <span class="hidden text-xs uppercase tracking-wide text-fuchsia-300/70 group-hover:inline">Lyrics →</span>}
@@ -122,7 +117,7 @@ const listen = [
           <p class="font-mono text-xs uppercase tracking-wide text-cyan-300/80">The voice</p>
           <h2 class="mt-4 font-display text-4xl text-white sm:text-5xl">Solène</h2>
           <p class="mt-5 text-pretty text-lg text-neutral-300">
-            Close-mic and fragile, Solène carries every Xas record — a human signal threaded through machine textures. She doesn’t belt; she remembers. The result is intimacy you can dance to.
+            Close-mic and unhurried, Solène is the human signal threaded through the machine. She does not belt. She stays close. The result is intimacy you can dance to.
           </p>
           <blockquote class="mt-8 border-l-2 border-fuchsia-500/60 pl-5 font-display text-2xl text-white/90">
             “The hardest part was knowing that I already had.”
@@ -134,10 +129,11 @@ const listen = [
     <!-- Story -->
     <section id="story" class="mx-auto max-w-6xl px-6 py-20">
       <div class="grid gap-10 lg:grid-cols-2">
-        <h2 class="font-display text-4xl text-white sm:text-6xl">Human<span class="text-fuchsia-400"> × </span>technology</h2>
+        <h2 class="font-display text-4xl text-white sm:text-6xl">Music for memory<br />and motion</h2>
         <div class="space-y-5 text-pretty text-lg text-neutral-300">
-          <p>Xas is a composer and music creator. Each release is an experiment in memory — built from recurring synth motifs, organic percussion and the spoken philosophy of presence.</p>
-          <p>Machines extend the hand; they don’t replace it. What stays is a life: nostalgic, restless, and fully here.</p>
+          <p>Xas creates psychedelic electronic music shaped by memory, distance, and movement.</p>
+          <p>Built around warm house grooves, French electronic textures, and cinematic melodies, the music sits between the club and the private afterimage of a place you once knew.</p>
+          <p>The songs return to recurring themes: nostalgia, belonging, longing, and the strange way music can make the past feel briefly present again.</p>
         </div>
       </div>
       <div class="mt-10">
@@ -163,7 +159,8 @@ const listen = [
           <a href="/privacy" class="hover:text-white">Privacy</a>
           <a href="mailto:kash@xas.band" class="hover:text-white">Contact</a>
         </nav>
-        <p class="mt-6 font-mono text-xs uppercase tracking-wide text-neutral-600">© 2025–2026 Xas — made of memory and signal</p>
+        <p class="mt-6 font-display text-xl text-white/70">Every note remembers something.</p>
+        <p class="mt-4 font-mono text-xs uppercase tracking-wide text-neutral-600">© 2025–2026 Xas</p>
         <p class="font-mono text-xs uppercase tracking-wide text-neutral-600">All music &amp; lyrics © 2025–2026 Xas. All rights reserved.</p>
       </div>
     </footer>
