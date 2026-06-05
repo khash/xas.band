@@ -1,0 +1,90 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  updated: string;
+}
+
+const { title, description, updated } = Astro.props;
+---
+
+<Layout title={`${title} — Xas`} description={description}>
+  <main class="grain min-h-dvh overflow-x-hidden bg-neutral-950 font-sans text-neutral-200 selection:bg-fuchsia-500/30">
+    <div class="pointer-events-none fixed inset-0 -z-10">
+      <div class="absolute -top-40 left-1/2 size-[42rem] -translate-x-1/2 rounded-full bg-fuchsia-600/15 blur-[120px]"></div>
+      <div class="absolute bottom-0 right-0 size-[36rem] rounded-full bg-cyan-500/10 blur-[120px]"></div>
+      <div class="grain-overlay absolute inset-0 opacity-[0.06] mix-blend-screen"></div>
+    </div>
+
+    <header class="mx-auto flex max-w-3xl items-center justify-between px-6 py-6">
+      <a href="/" class="font-display text-2xl tracking-tight text-white [text-shadow:0_0_24px_rgb(217_70_239/0.55)]">XAS</a>
+      <a href="/" class="font-mono text-xs uppercase tracking-wide text-neutral-400 hover:text-white">← Back</a>
+    </header>
+
+    <article class="mx-auto max-w-3xl px-6 pt-10 pb-24">
+      <p class="font-mono text-xs uppercase tracking-wide text-fuchsia-300/80">Legal</p>
+      <h1 class="mt-4 font-display text-4xl text-white sm:text-5xl">{title}</h1>
+      <p class="mt-4 font-mono text-xs uppercase tracking-wide text-neutral-500">Last updated · {updated}</p>
+
+      <div class="prose mt-12">
+        <slot />
+      </div>
+
+      <footer class="mt-20 border-t border-white/5 pt-8">
+        <p class="font-mono text-xs uppercase tracking-wide text-neutral-600">
+          Xas is Kash Sajadi · <a href="mailto:kash@xas.band" class="text-neutral-400 hover:text-white">kash@xas.band</a>
+        </p>
+        <p class="mt-3 font-mono text-xs uppercase tracking-wide text-neutral-600">© 2025–2026 Kash Sajadi</p>
+      </footer>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  .prose :global(h2) {
+    font-family: var(--font-display);
+    font-variation-settings: "wdth" 125;
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+  .prose :global(p),
+  .prose :global(li) {
+    color: rgb(212 212 212);
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+  .prose :global(p) {
+    margin-top: 1rem;
+  }
+  .prose :global(ul) {
+    margin-top: 1rem;
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+  .prose :global(li) {
+    margin-top: 0.4rem;
+  }
+  .prose :global(li::marker) {
+    color: rgb(217 70 239 / 0.6);
+  }
+  .prose :global(a) {
+    color: rgb(240 171 252);
+    text-underline-offset: 3px;
+    text-decoration: underline;
+  }
+  .prose :global(a:hover) {
+    color: #fff;
+  }
+  .prose :global(strong) {
+    color: rgb(245 245 245);
+    font-weight: 600;
+  }
+</style>
