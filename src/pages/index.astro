@@ -4,11 +4,11 @@ import Layout from '../layouts/Layout.astro';
 import { tracks, cover } from '../data/tracks';
 
 const listen = [
-  { name: 'SoundCloud' },
-  { name: 'Spotify' },
-  { name: 'Apple Music' },
-  { name: 'YouTube' },
-  { name: 'Bandcamp' },
+  { name: 'SoundCloud', icon: '/img/streaming/soundcloud.png' },
+  { name: 'Spotify', icon: '/img/streaming/spotify.png' },
+  { name: 'Apple Music', icon: '/img/streaming/apple-music.png' },
+  { name: 'YouTube', icon: '/img/streaming/youtube.png' },
+  { name: 'Bandcamp', icon: '/img/streaming/bandcamp.png' },
 ];
 ---
 
@@ -93,7 +93,7 @@ const listen = [
                 <Image src={cover(t.slug)} alt="" width={160} height={160} format="webp" quality={80} class="size-full object-cover transition group-hover:scale-105" />
               </span>
               <span class="min-w-0">
-                <span class="block truncate text-base font-medium text-neutral-100 group-hover:text-white">{t.title}</span>
+                <span class="block truncate text-base font-medium text-neutral-100 group-hover:text-white">{t.title}{t.feat && <span class="ml-2 font-mono text-xs font-normal text-neutral-500">feat. {t.feat}</span>}</span>
                 <span class="mt-0.5 block text-pretty font-mono text-xs leading-relaxed text-neutral-500">{t.note}</span>
               </span>
               <span class="flex items-center gap-3 font-mono text-sm tabular-nums text-neutral-500">
@@ -150,7 +150,7 @@ const listen = [
         <ul role="list" class="mt-2 flex flex-wrap justify-center gap-3">
           {listen.map((l) => (
             <li><span class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-neutral-500 ring-1 ring-white/10">
-              <span class="size-1.5 rounded-full bg-fuchsia-400/60"></span>{l.name}
+              <img src={l.icon} alt="" aria-hidden="true" class="size-4 opacity-70" />{l.name}
             </span></li>
           ))}
         </ul>

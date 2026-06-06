@@ -35,6 +35,7 @@ const stanzas = (track.lyrics ?? '')
         <div>
           <p class="font-mono text-xs uppercase tracking-wide text-fuchsia-300/80">Lyrics</p>
           <h1 class="mt-2 font-display text-4xl text-white sm:text-5xl">{track.title}</h1>
+          {track.feat && <p class="mt-1 font-mono text-xs uppercase tracking-wide text-neutral-400">feat. {track.feat}</p>}
           <p class="mt-2 font-mono text-xs text-neutral-500">{track.note} · {track.dur}</p>
         </div>
       </div>

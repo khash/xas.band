@@ -12,6 +12,7 @@ export interface Track {
   title: string;
   note: string;
   dur: string;
+  feat?: string;
   lyrics?: string;
 }
 
@@ -21,6 +22,7 @@ export const tracks: Track[] = [
     title: 'The Silence After',
     note: 'Love had already left. The room kept listening.',
     dur: '5:17',
+    feat: 'Lucien',
     lyrics: `The lights are on
 But nobody's home
 
