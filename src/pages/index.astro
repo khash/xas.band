@@ -4,11 +4,10 @@ import Layout from '../layouts/Layout.astro';
 import { tracks, cover } from '../data/tracks';
 
 const listen = [
-  { name: 'SoundCloud', icon: '/img/streaming/soundcloud.png' },
-  { name: 'Spotify', icon: '/img/streaming/spotify.png' },
-  { name: 'Apple Music', icon: '/img/streaming/apple-music.png' },
+  { name: 'SoundCloud', icon: '/img/streaming/soundcloud.png', url: 'https://soundcloud.com/komoshokash' },
+  { name: 'Spotify', icon: '/img/streaming/spotify.png', url: 'https://open.spotify.com/artist/1yAiiQ0lXPR1WKrds8TeOr' },
+  { name: 'Apple Music', icon: '/img/streaming/apple-music.png', url: 'https://music.apple.com/us/artist/xas/6777169318' },
   { name: 'YouTube', icon: '/img/streaming/youtube.png' },
-  { name: 'Bandcamp', icon: '/img/streaming/bandcamp.png' },
 ];
 ---
 
@@ -149,9 +148,15 @@ const listen = [
         <p class="max-w-[46ch] text-pretty text-neutral-400">Releasing on all platforms soon. Follow to hear it first.</p>
         <ul role="list" class="mt-2 flex flex-wrap justify-center gap-3">
           {listen.map((l) => (
-            <li><span class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-neutral-500 ring-1 ring-white/10">
-              <img src={l.icon} alt="" aria-hidden="true" class="size-4 opacity-70" />{l.name}
-            </span></li>
+            <li>{l.url ? (
+              <a href={l.url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-neutral-300 ring-1 ring-white/10 transition hover:text-white hover:ring-white/25">
+                <img src={l.icon} alt="" aria-hidden="true" class="size-4 opacity-70" />{l.name}
+              </a>
+            ) : (
+              <span class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-neutral-500 ring-1 ring-white/10">
+                <img src={l.icon} alt="" aria-hidden="true" class="size-4 opacity-70" />{l.name}
+              </span>
+            )}</li>
           ))}
         </ul>
         <nav class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wide text-neutral-500">
