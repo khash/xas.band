@@ -1,0 +1,138 @@
+---
+// Embedded streaming player with a platform picker. All audio is served by the
+// platforms' own iframes (Spotify / Apple Music / SoundCloud) — we host nothing,
+// and every play counts as a stream on the visitor's chosen platform. The
+// chosen platform is remembered in localStorage and used as the default for
+// every player on the site.
+//
+// Rendered collapsed (hidden) by default and toggled by any element with
+// data-play-for={track.slug}; pass `open` to render it expanded (lyrics pages).
+import type { Track } from '../data/tracks';
+
+interface Props {
+  track: Track;
+  open?: boolean;
+}
+
+const { track, open = false } = Astro.props;
+const p = track.platforms ?? {};
+
+const platforms = [
+  p.spotify && { key: 'spotify', name: 'Spotify', icon: '/img/streaming/spotify.png' },
+  p.apple && { key: 'apple', name: 'Apple Music', icon: '/img/streaming/apple-music.png' },
+  p.soundcloud && { key: 'soundcloud', name: 'SoundCloud', icon: '/img/streaming/soundcloud.png' },
+].filter(Boolean) as { key: string; name: string; icon: string }[];
+---
+
+{platforms.length > 0 && (
+  <div
+    class="track-player pb-4"
+    id={`player-${track.slug}`}
+    hidden={!open}
+    data-spotify={p.spotify}
+    data-apple-album={p.apple?.album}
+    data-apple-track={p.apple?.track}
+    data-soundcloud={p.soundcloud}
+  >
+    <div class="rounded-xl bg-white/[0.03] p-3 ring-1 ring-white/10">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="mr-1 font-mono text-[0.65rem] uppercase tracking-wide text-neutral-500">Listen on</span>
+        {platforms.map((pl) => (
+          <button
+            type="button"
+            data-platform={pl.key}
+            aria-pressed="false"
+            class="inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-neutral-400 ring-1 ring-white/10 transition hover:text-white hover:ring-white/25 aria-pressed:bg-white/10 aria-pressed:text-white aria-pressed:ring-white/25"
+          >
+            <img src={pl.icon} alt="" aria-hidden="true" class="size-3.5 opacity-70" />{pl.name}
+          </button>
+        ))}
+      </div>
+      <div class="player-frame mt-3 empty:hidden"></div>
+    </div>
+  </div>
+)}
+
+<script>
+  const PREF_KEY = 'xas-listen-platform';
+
+  const EMBEDS: Record<string, (d: DOMStringMap) => { src: string; height: number }> = {
+    spotify: (d) => ({
+      src: `https://open.spotify.com/embed/track/${d.spotify}?theme=0`,
+      height: 152,
+    }),
+    apple: (d) => ({
+      src: `https://embed.music.apple.com/us/album/${d.appleAlbum}?i=${d.appleTrack}&theme=dark`,
+      height: 175,
+    }),
+    soundcloud: (d) => ({
+      src: `https://w.soundcloud.com/player/?url=${encodeURIComponent(
+        `https://soundcloud.com/komoshokash/${d.soundcloud}`,
+      )}&color=%23d946ef&hide_related=true&show_comments=false&show_teaser=false&visual=false`,
+      height: 166,
+    }),
+  };
+
+  function load(player: HTMLElement, platform: string) {
+    const make = EMBEDS[platform];
+    if (!make) return;
+    const { src, height } = make(player.dataset);
+    const iframe = document.createElement('iframe');
+    iframe.src = src;
+    iframe.height = String(height);
+    iframe.allow = 'autoplay; encrypted-media; fullscreen; clipboard-write';
+    iframe.loading = 'lazy';
+    iframe.style.width = '100%';
+    iframe.style.border = '0';
+    iframe.style.borderRadius = '12px';
+    player.querySelector('.player-frame')?.replaceChildren(iframe);
+    player.querySelectorAll<HTMLButtonElement>('[data-platform]').forEach((b) => {
+      b.setAttribute('aria-pressed', String(b.dataset.platform === platform));
+    });
+    player.dataset.loaded = platform;
+  }
+
+  function preferred(player: HTMLElement): string {
+    let saved: string | null = null;
+    try {
+      saved = localStorage.getItem(PREF_KEY);
+    } catch {}
+    const avail = [...player.querySelectorAll<HTMLButtonElement>('[data-platform]')].map(
+      (b) => b.dataset.platform!,
+    );
+    return saved && avail.includes(saved) ? saved : avail[0]!;
+  }
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+
+    const toggle = target.closest<HTMLElement>('[data-play-for]');
+    if (toggle) {
+      const player = document.getElementById(`player-${toggle.dataset.playFor}`);
+      if (!player) return;
+      player.hidden = !player.hidden;
+      toggle.setAttribute('aria-expanded', String(!player.hidden));
+      if (!player.hidden && !player.dataset.loaded) load(player, preferred(player));
+      return;
+    }
+
+    const tab = target.closest<HTMLButtonElement>('.track-player [data-platform]');
+    if (tab) {
+      const platform = tab.dataset.platform!;
+      try {
+        localStorage.setItem(PREF_KEY, platform);
+      } catch {}
+      // The platform choice is site-wide: switch every expanded player that
+      // offers it (players without that platform keep what they have).
+      document.querySelectorAll<HTMLElement>('.track-player:not([hidden])').forEach((player) => {
+        const offered = player.querySelector(`[data-platform="${platform}"]`);
+        if (offered && player.dataset.loaded !== platform) load(player, platform);
+      });
+    }
+  });
+
+  // Players rendered expanded (lyrics pages) load their embed immediately.
+  document
+    .querySelectorAll<HTMLElement>('.track-player:not([hidden])')
+    .forEach((p) => load(p, preferred(p)));
+</script>

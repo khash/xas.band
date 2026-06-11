@@ -7,12 +7,26 @@
 
 import type { ImageMetadata } from 'astro';
 
+// Per-platform streaming IDs used by the embedded players (TrackPlayer.astro).
+// Playback is served entirely by the platforms' own iframes — we host no audio.
+// A missing entry just hides that platform's button, so tracks can be added
+// here as they propagate to each store.
+export interface TrackPlatforms {
+  /** Spotify track ID (open.spotify.com/track/<id>) */
+  spotify?: string;
+  /** Apple Music album + track IDs (music.apple.com/us/album/<album>?i=<track>) */
+  apple?: { album: string; track: string };
+  /** SoundCloud permalink slug under soundcloud.com/komoshokash/<slug> */
+  soundcloud?: string;
+}
+
 export interface Track {
   slug: string;
   title: string;
   note: string;
   dur: string;
   feat?: string;
+  platforms?: TrackPlatforms;
   lyrics?: string;
 }
 
@@ -23,6 +37,11 @@ export const tracks: Track[] = [
     note: 'Love had already left. The room kept listening.',
     dur: '5:17',
     feat: 'Lucien',
+    platforms: {
+      spotify: '3lzpLcXvHd7jKFVGMb2vsO',
+      apple: { album: '6777347813', track: '6777347814' },
+      soundcloud: 'the-silence-after',
+    },
     lyrics: `The lights are on
 But nobody's home
 
@@ -99,6 +118,10 @@ Was knowing that I already had`,
     title: 'Only Now',
     note: 'No yesterday. No tomorrow. Just the pulse of this moment.',
     dur: '5:36',
+    platforms: {
+      spotify: '02OjyNcCGvyTDHk1PvK2on',
+      soundcloud: 'only-now',
+    },
     lyrics: `Slowly
 The night unfolds
 A thousand stories
@@ -180,6 +203,11 @@ Only now`,
     title: 'Here and Now',
     note: 'A small light held steady against the noise.',
     dur: '4:57',
+    platforms: {
+      spotify: '3kpLWB8FOvDnMvOLEbLybb',
+      apple: { album: '6778266235', track: '6778266236' },
+      soundcloud: 'here-and-now',
+    },
     lyrics: `Midnight air, electric blue
 Static lights dissolve in you
 Slow reflections on the glass
@@ -256,6 +284,11 @@ Every road still leads to you`,
     title: 'Every Note Remembers Something',
     note: 'You see the painting. Not the brush strokes. You hear the laughter. Not what once broke.',
     dur: '5:09',
+    platforms: {
+      spotify: '3wEjMQ1FKZTBldoJdlhap2',
+      apple: { album: '6778268733', track: '6778268944' },
+      soundcloud: 'every-note-remembers-something',
+    },
     lyrics: `Every note remembers something
 Every note finds its way home
 
@@ -298,6 +331,11 @@ Long before the song was sung`,
     title: "Don't Wake Me Up",
     note: 'In the dream, they were still there.',
     dur: '5:27',
+    platforms: {
+      spotify: '29k6x4CEA6HxXmrJL82A6Y',
+      apple: { album: '6778246839', track: '6778246840' },
+      soundcloud: 'dont-wake-me-up',
+    },
     lyrics: `I heard your voice before the light
 Soft as dust in a closing sky
 You turned and smiled like nothing changed
@@ -356,6 +394,11 @@ And took you with it`,
     title: 'Motion',
     note: 'The past falls behind, but never completely lets go.',
     dur: '4:54',
+    platforms: {
+      spotify: '3SyQ7fnQCCwwfE22OlxTKv',
+      apple: { album: '6778265390', track: '6778265391' },
+      soundcloud: 'motion',
+    },
     lyrics: `The city lights change
 But they blur all the same
 I carry old names
@@ -425,6 +468,10 @@ Chasing fading lights (fading lights)`,
     title: 'Neon Noir',
     note: 'Streetlight, shadow, and a heartbeat under glass.',
     dur: '3:03',
+    platforms: {
+      spotify: '0ag7nAJQQnvZojLBWvGquO',
+      soundcloud: 'neon-noir',
+    },
     lyrics: `Néons bleus sur le périph'
 Minuit traverse la ville
 Le béton respire encore

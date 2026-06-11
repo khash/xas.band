@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
+import TrackPlayer from '../../components/TrackPlayer.astro';
 import { tracks, cover } from '../../data/tracks';
 
 export function getStaticPaths() {
@@ -38,6 +39,10 @@ const stanzas = (track.lyrics ?? '')
           {track.feat && <p class="mt-1 font-mono text-xs uppercase tracking-wide text-neutral-400">feat. {track.feat}</p>}
           <p class="mt-2 font-mono text-xs text-neutral-500">{track.note} · {track.dur}</p>
         </div>
+      </div>
+
+      <div class="mt-8">
+        <TrackPlayer track={track} open />
       </div>
 
       <div class="mt-12 space-y-8 text-pretty text-lg leading-relaxed text-neutral-300">

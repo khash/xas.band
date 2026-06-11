@@ -25,7 +25,8 @@ aws amplify get-job   --profile personal --region us-east-1 --app-id dnojs9xcscs
 
 ## Architecture
 
-- **`src/data/tracks.ts` is the single source of truth for the singles.** It exports the `tracks` array (slug, title, note, dur, optional `lyrics`) and the `cover(slug)` helper. Both the home page singles list and the lyrics pages import from here — never reintroduce an inline track array in a page.
+- **`src/data/tracks.ts` is the single source of truth for the singles.** It exports the `tracks` array (slug, title, note, dur, optional `platforms`, optional `lyrics`) and the `cover(slug)` helper. Both the home page singles list and the lyrics pages import from here — never reintroduce an inline track array in a page.
+- **In-page playback is embed-only** (`src/components/TrackPlayer.astro`): Spotify / Apple Music / SoundCloud iframes chosen via per-track `platforms` IDs in `tracks.ts` — we host no audio, plays count as streams on the platform. A missing platform entry just hides that button (use this while a release propagates to a store). The visitor's last-picked platform is saved in `localStorage` (`xas-listen-platform`) and used as the default everywhere.
 - **Pages** (`src/pages/`): `index.astro` is the whole one-page site (sections `#music`, `#voice`, `#story`); `music/[slug].astro` generates one lyrics page per track via `getStaticPaths()` over `tracks.filter(t => t.lyrics)`; `terms.astro` / `privacy.astro` are legal pages.
 - **Layouts**: `Layout.astro` (main, sets the neon background + grain) and `LegalLayout.astro` (legal pages; carries its own footer with the **owner** copyright "Kash Sajadi" — distinct from the site's music/lyrics rights notices).
 - **Cover images** live in `public/tracks/<slug>.png`; the `slug` in `tracks.ts` must match the filename.

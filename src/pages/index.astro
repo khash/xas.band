@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
+import TrackPlayer from '../components/TrackPlayer.astro';
 import { tracks, cover } from '../data/tracks';
 
 const listen = [
@@ -42,7 +43,7 @@ const listen = [
             <span class="absolute size-2 animate-ping rounded-full bg-fuchsia-400/70"></span>
             <span class="size-1.5 rounded-full bg-fuchsia-400"></span>
           </span>
-          Debut album · coming soon
+          New singles · out now
         </span>
         <h1 class="mt-6 max-w-[16ch] text-balance font-display text-5xl text-white sm:text-6xl lg:text-7xl">
           Every note remembers something.
@@ -79,27 +80,48 @@ const listen = [
           <h2 class="font-display text-4xl text-white sm:text-5xl">Releases</h2>
           <p class="mt-3 max-w-[42ch] text-pretty text-neutral-400">Songs about memory, distance, love, and the moments that keep returning.</p>
         </div>
-        <p class="shrink-0 font-mono text-xs uppercase tracking-wide text-neutral-500">7 singles · coming 2026</p>
+        <p class="shrink-0 font-mono text-xs uppercase tracking-wide text-neutral-500">7 singles · out now</p>
       </div>
       <ul role="list" class="mt-8 divide-y divide-white/5">
         {tracks.map((t) => (
           <li>
-            <a
-              href={t.lyrics ? `/music/${t.slug}` : undefined}
-              class={`group grid grid-cols-[auto_1fr_auto] items-center gap-4 py-4 ${t.lyrics ? 'cursor-pointer' : ''}`}
-            >
-              <span class="size-12 shrink-0 overflow-hidden rounded-lg sm:size-14">
-                <Image src={cover(t.slug)} alt="" width={160} height={160} format="webp" quality={80} class="size-full object-cover transition group-hover:scale-105" />
-              </span>
-              <span class="min-w-0">
-                <span class="block truncate text-base font-medium text-neutral-100 group-hover:text-white">{t.title}{t.feat && <span class="ml-2 font-mono text-xs font-normal text-neutral-500">feat. {t.feat}</span>}</span>
-                <span class="mt-0.5 block text-pretty font-mono text-xs leading-relaxed text-neutral-500">{t.note}</span>
-              </span>
+            <div class="group grid grid-cols-[auto_1fr_auto] items-center gap-4 py-4">
+              {t.platforms ? (
+                <button
+                  type="button"
+                  data-play-for={t.slug}
+                  aria-controls={`player-${t.slug}`}
+                  aria-expanded="false"
+                  aria-label={`Play ${t.title}`}
+                  class="relative size-12 shrink-0 cursor-pointer overflow-hidden rounded-lg sm:size-14"
+                >
+                  <Image src={cover(t.slug)} alt="" width={160} height={160} format="webp" quality={80} class="size-full object-cover transition group-hover:scale-105" />
+                  <span class="absolute inset-0 grid place-items-center bg-neutral-950/40 opacity-0 transition group-hover:opacity-100 [@media(hover:none)]:opacity-70">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="size-5 text-white drop-shadow"><path d="M8 5.5v13l11-6.5z" /></svg>
+                  </span>
+                </button>
+              ) : (
+                <span class="size-12 shrink-0 overflow-hidden rounded-lg sm:size-14">
+                  <Image src={cover(t.slug)} alt="" width={160} height={160} format="webp" quality={80} class="size-full object-cover transition group-hover:scale-105" />
+                </span>
+              )}
+              {t.lyrics ? (
+                <a href={`/music/${t.slug}`} class="min-w-0">
+                  <span class="block truncate text-base font-medium text-neutral-100 group-hover:text-white">{t.title}{t.feat && <span class="ml-2 font-mono text-xs font-normal text-neutral-500">feat. {t.feat}</span>}</span>
+                  <span class="mt-0.5 block text-pretty font-mono text-xs leading-relaxed text-neutral-500">{t.note}</span>
+                </a>
+              ) : (
+                <span class="min-w-0">
+                  <span class="block truncate text-base font-medium text-neutral-100 group-hover:text-white">{t.title}{t.feat && <span class="ml-2 font-mono text-xs font-normal text-neutral-500">feat. {t.feat}</span>}</span>
+                  <span class="mt-0.5 block text-pretty font-mono text-xs leading-relaxed text-neutral-500">{t.note}</span>
+                </span>
+              )}
               <span class="flex items-center gap-3 font-mono text-sm tabular-nums text-neutral-500">
-                {t.lyrics && <span class="hidden text-xs uppercase tracking-wide text-fuchsia-300/70 group-hover:inline">Lyrics →</span>}
+                {t.lyrics && <a href={`/music/${t.slug}`} class="hidden text-xs uppercase tracking-wide text-fuchsia-300/70 hover:text-fuchsia-200 group-hover:inline">Lyrics →</a>}
                 {t.dur}
               </span>
-            </a>
+            </div>
+            <TrackPlayer track={t} />
           </li>
         ))}
       </ul>
@@ -143,9 +165,9 @@ const listen = [
     <!-- Footer -->
     <footer class="border-t border-white/5">
       <div class="mx-auto flex max-w-6xl flex-col items-center gap-5 px-6 py-16 text-center">
-        <p class="font-mono text-xs uppercase tracking-wide text-fuchsia-300/80">Coming soon</p>
+        <p class="font-mono text-xs uppercase tracking-wide text-fuchsia-300/80">Out now</p>
         <p class="max-w-[24ch] text-balance font-display text-3xl text-white sm:text-4xl">New music from Xas, with Solène</p>
-        <p class="max-w-[46ch] text-pretty text-neutral-400">Releasing on all platforms soon. Follow to hear it first.</p>
+        <p class="max-w-[46ch] text-pretty text-neutral-400">Singles streaming on all platforms. Follow to hear what's next.</p>
         <ul role="list" class="mt-2 flex flex-wrap justify-center gap-3">
           {listen.map((l) => (
             <li>{l.url ? (
